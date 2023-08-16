@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="https://thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/administrativo">
+            <img style="border-radius: 10px;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDE7lZ3O6xznX5BoAF1362NdgJ17M5WaEDyD14C6dBjU6v_DoFg4vxfR-5jDNdOoWGX-M&usqp=CAU"
+                alt="" width="30" height="30">
+
+            Mundial Sis.</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado"
+            aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/administrativo">Home <span class="sr-only">(página atual)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Pesquisar</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1> Formulário de Cadastro </h1>
+		
+        <form action="/salvarFornecedor" th:object="${fornecedor}" method="POST">
+            <div class="form-group">
+            
+            	<div class="row">
+            	
+            		<div class="col-md-1">
+            			<label>id:</label>
+                		<input th:field="*{id}"  type="text" class="form-control"  readonly="readonly">
+            		</div>
+            		
+            		<div class="col-md-2">
+            			<label>PF ou PJ?</label>
+            			
+            			<select id="tipoPessoa" class="form-control" onclick="modificar()">
+            			
+            				<option value="pf">Pessoa Física</option>
+            				<option value="pj">Pessoa Jurídica</option>
+            				
+            			</select>
+            			
+            			<script>
+	            			function modificar(){
+	            				var pessoa = document.getElementById("tipoPessoa").value;
+	            	
+	            			    if(pessoa === "pj"){
+	            			    	 $("#documento").mask("99.999.999/9999-99");
+	            			    	 
+	            			    } else {
+	            			    	$("#documento").mask("999.999.999-99");
+	            			    	
+	            			    }
+	            				
+	            			}
+            			</script>
+            		</div>
+            		
+            		<div class="col-md">
+            			<label>Nome:</label>
+                		<input th:field="*{nome}" required type="text" class="form-control" placeholder="Digite seu Nome" >
+            		</div>
+            		
+            		<div class="col-md">
+            			<label>Documento:</label>
+                		<input th:field="*{documento}" id="documento" required type="text" class="form-control" >
+            		</div>
+            		
+            	</div>
+            	
+            	 <div class="row">
+            	 
+            		<div class="col-md">
+            			<label>Telefone:</label>
+                		<input th:field="*{telefone}" id="telefone" required type="text" class="form-control" >
+            		</div>
+            		
+            		<div class="col-md">
+            			<label>Endereço:</label>
+                		<input th:field="*{endereco}" required type="text" class="form-control" >
+            		</div>
+            		
+            		<div class="col-md">
+            			<label>Numero:</label>
+                		<input th:field="*{numero}" required type="number" class="form-control" >
+            		</div>
+            	</div>
+            	
+            	<div class="row">
+            	
+            		<div class="col-md">
+		                <label>Bairro:</label>
+		                <input th:field="*{bairro}" type="text" class="form-control" >
+            		</div>
+            		
+            		<div class="col-md">
+		                <label>Email:</label>
+		                <input th:field="*{email}" required type="text" class="form-control" >
+            		</div>
+            		
+            		<div class="col-md">
+		                <label>Cidade</label>
+		                <select th:field="*{cidade}" class="form-control">
+		                  	<option th:each="est : ${listaCidades}" 
+		                  	th:value="${est.id}" th:text="${est.nome}">
+		                  	</option> 
+		                </select>
+            		</div>
+            		
+            	</div>
+           
+            </div>
+
+            <button type="submit" class="btn btn-primary"> <i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+            <a class="btn btn-danger" href="/administrativo"> <i class="fa-solid fa-right-from-bracket fa-flip-horizontal"></i> Voltar </a>
+            
+            <a class="btn btn-success" href="/listarFornecedor"> <i class="fa-solid fa-list-check"></i> listar </a>
+        </form>
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+        
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/0.9.0/jquery.mask.min.js" integrity="sha512-oJCa6FS2+zO3EitUSj+xeiEN9UTr+AjqlBZO58OPadb2RfqwxHpjTU8ckIC8F4nKvom7iru2s8Jwdo+Z8zm0Vg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		
+	<script>
+		jQuery(function($){ 
+			
+			$("#documento").mask("999.999.999-99");
+			$("#telefone").mask("(99)99999-9999");
+			
+		});
+		
+
+	</script>
+	
+	
+		
+		
+		
+		
+		
+
+	
+</body>
+
+</html>
